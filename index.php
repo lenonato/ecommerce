@@ -34,7 +34,6 @@ $app->get('/admin/login', function() {
 	$page = new PageAdmin([
 		"header"=>false,
 		"footer"=>false
-
 	]);
 
 	$page->setTpl("login");
@@ -73,7 +72,7 @@ $app->get('/admin/users', function() {
 
 });
 
-$app->get('/admin/users/create', function() {
+$app->get("/admin/users/create", function() {
 
 	User::verifyLogin();
 
@@ -82,6 +81,12 @@ $app->get('/admin/users/create', function() {
 	$page->setTpl("users-create");
 
 });
+
+$app->post("/admin/users/:idusers/delete", function($iduser) {
+
+	User::verifyLogin();
+
+}); 
 
 $app->get('/adm/users/:iduser', function($iduser){
     User::verifyLogin();
@@ -94,19 +99,16 @@ $app->get('/adm/users/:iduser', function($iduser){
 });
 
 
-$app->post('/admin/users/create', function() {
+$app->post("/admin/users/create", function() {
 
 	User::verifyLogin();
 
 }); 
 
-
-$app->post('/admin/users/:iduser', function($iduser) {
+$app->post("/admin/users/:iduser", function($iduser) {
 
 	User::verifyLogin();
-
 });
-
 
 $app->run();
 
