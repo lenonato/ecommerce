@@ -1,5 +1,4 @@
 <?php 
-
 session_start();
 require_once("vendor/autoload.php");
 
@@ -51,7 +50,7 @@ $app->post('/admin/login', function() {
 
 });
 
-$app->get('/admin/logout', function(){
+$app->get('/admin/logout', function() {
 
 	User::logout();
 
