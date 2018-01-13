@@ -97,7 +97,7 @@ $app->post("/admin/users/:idusers/delete", function($iduser) {
 
 }); 
 
-$app->get("/adm/users/:iduser", function($iduser) {
+$app->get("/admin/users/:iduser", function($iduser) {
 
     User::verifyLogin();
 
