@@ -106,7 +106,7 @@ class User extends Model {
 		));
 
 		$this->setData($results[0]);
-
+		
 	}
 
 	public function update()
