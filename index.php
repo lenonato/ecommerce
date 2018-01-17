@@ -2,6 +2,7 @@
 session_start();
 require_once("vendor/autoload.php");
 
+
 use \Slim\Slim;
 use \Hcode\Page;
 use \Hcode\PageAdmin;
@@ -82,7 +83,7 @@ $app->get("/admin/users/create", function() {
 
 });
 
-$app->post("/admin/users/:idusers/delete", function($iduser) {
+$app->get("/admin/users/:idusers/delete", function($iduser) {
 
 	User::verifyLogin();
 
@@ -120,6 +121,10 @@ $app->post("/admin/users/create", function() {
 	$user = new User();
 
 	$_POST["inadmin"] = (isset($_POST["inadmin"]))?1:0;
+
+	$_POST['despassword'] = password_hash($_POST["despassword"], PASSWORD_DEFAULT, [
+    "cost"=>12
+	]);
 
 	$user->setData($_POST);
 
@@ -177,6 +182,22 @@ $app->get("/admin/forgot/sent", function(){
 	]);
 
 	$page->setTpl("forgot-sent");
+
+});
+
+$app->get("/admin/forgot/reset", function(){
+
+	$user = User::validForgotDecrypt($_GET["code"]);
+
+	$page = new PageAdmin([
+		"header"=>false,
+		"footer"=>false
+	]);
+
+	$page->setTpl("forgot-reset", array(
+		"name"=>$user["desperson"],
+		"code"=>$_GET["code"]
+	));
 
 });
 

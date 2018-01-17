@@ -4,6 +4,7 @@ namespace Hcode\Model;
 
 use \Hcode\DB\Sql;
 use \Hcode\Model;
+use \Hcode\Mailer;
 
 class User extends Model {
 
@@ -164,7 +165,7 @@ class User extends Model {
 
 			$data = $results[0];
 
-			$results2 = $sql->select("CALL sp_userspasswordsrecoveries-create(:iduser, :desip)", array(
+			$results2 = $sql->select("CALL sp_userspasswordsrecoveries_create(:iduser, :desip)", array(
 				":iduser"=>$data["iduser"],
 				":desip"=>$_SERVER["REMOTE_ADDR"]
 			));
@@ -172,7 +173,7 @@ class User extends Model {
 			if (count($results2) === 0)
 			{
 
-				throw new Exception("Não foi possível recuperar a senha.");
+				throw new \Exception("Não foi possível recuperar a senha.");
 				
 			}
 			else
@@ -184,7 +185,7 @@ class User extends Model {
 
 				$link = "http://www.nonatoecommerce.com.br/admin/forgot/reset?code=$code";
 
-				$mailer = new Mailer($data["desemail"], $data["desperson"], "Redefir Senha da Nonatos Desenvolvimentos.", "forgot", array(
+				$mailer = new Mailer($data["desemail"], $data["desperson"], "Redefir Senha de Nonatos Desenvolvimentos.", "forgot", array(
 					"name"=>$data["desperson"],
 					"link"=>$link
 				));
@@ -194,8 +195,41 @@ class User extends Model {
 				return $data;
 
 			}
-
 	
+		}
+
+	}
+
+	public static function validForgotDecrypt($code)
+	{
+
+		$idrecovery = mcrypt_decrypt(MCRYPT_RIJNDAEL_128, User::SECRET, base64_decode($code), MCRYPT_MODE_ECB);
+
+		$sql = new Sql();
+
+		$results = $sql->select("
+
+			SELECT *
+		FROM tb_userspasswordsrecoveries a 
+		INNER JOIN tb_users b USING(iduser)
+		INNER JOIN tb_persons c USING(idperson)
+		WHERE
+		a.idrecovery = :idrecovery
+	    AND
+	    a.dtrecovery IS NULL
+	    AND
+	    DATE_ADD(a.dtregister, INTERVAL 1 HOUR) >= NOW();
+		", array (
+			":idrecovery"=>$idrecovery
+		));
+
+		if (count($results) ===0)
+		{
+			throw new \Exception("Não foi possível recuperar a senha.");			
+		}
+		else
+		{
+			return $results[0];
 		}
 
 	}

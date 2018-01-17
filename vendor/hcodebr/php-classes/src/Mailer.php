@@ -31,7 +31,7 @@ class Mailer {
 
 		    $html = $tpl->draw($tplName, true);
 
-	$this->mail = new PHPMailer\PHPMailer\PHPMailer();
+	$this->mail = new \PHPMailer();
 
 	//Tell PHPMailer to use SMTP
 	$this->mail->isSMTP();
@@ -95,7 +95,7 @@ class Mailer {
 	public function send()
 	{
 
-		return $this->mail->send()
+		return $this->mail->send();
 
 	}
 }

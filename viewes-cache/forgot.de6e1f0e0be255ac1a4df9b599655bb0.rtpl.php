@@ -26,14 +26,14 @@
 <!-- Automatic element centering -->
 <div class="lockscreen-wrapper">
   <div class="lockscreen-logo">
-    <a href="/res/admin/index2.html"><b>Admin</b>LTE</a>
+    <a href="/res/site/admin/index2.html"><b>Admin</b>LTE</a>
   </div>
 
   <!-- START LOCK SCREEN ITEM -->
   <div class="lockscreen-item">
 
     <!-- lockscreen credentials (contains the form) -->
-    <form  action="res/admin/forgot" method="post">
+    <form  action="/admin/forgot" method="post">
       <div class="input-group">
         <input type="email" class="form-control" placeholder="Digite o e-mail" name="email">
 
