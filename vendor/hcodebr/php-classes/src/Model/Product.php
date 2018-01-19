@@ -13,7 +13,7 @@ class Product extends Model {
 
 		$sql = new Sql();
 
-		return $sql->select("SELECT * FROM tb_products ORDER BY desproducts");
+		return $sql->select("SELECT * FROM tb_products ORDER BY desproduct");
 
 	}
 
