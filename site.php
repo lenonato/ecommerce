@@ -90,7 +90,7 @@ $app->get("/cart/:idproduct/add", function($idproduct){
 
     }
 
-    header("Location /cart");
+    header("Location: /cart");
     exit;
 
 });
@@ -106,7 +106,7 @@ $app->get("/cart/:idproduct/minus", function($idproduct){
 
     $cart->removeProduct($product);
 
-    header("Location /cart");
+    header("Location: /cart");
     exit;
 
 });
@@ -121,7 +121,7 @@ $app->get("/cart/:idproduct/remove", function($idproduct){
 
     $cart->removeProduct($product, true);
 
-    header("Location /cart");
+    header("Location: /cart");
     exit;
 
 });
