@@ -69,7 +69,7 @@ $app->get("/cart", function(){
 
     $page->setTpl("cart", [
         'cart'=>$cart->getValues(),
-        'product'=>$cart->getProduct()
+        'products'=>$cart->getProducts()
     ]);
 
 });
