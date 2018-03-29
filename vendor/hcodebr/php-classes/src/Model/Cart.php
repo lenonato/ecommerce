@@ -122,6 +122,9 @@ class Cart extends Model{
 				':idproduct'=>$product->getidproduct()
 			]);
 
+
+
+
 		} 
 
 		public function removeProduct(Product $product, $all = false)
@@ -192,7 +195,7 @@ class Cart extends Model{
 	public function setFreight($nrzipcode)
 	{
 
-		$nrzipcode = str_replace('-', '-', $nrzipcode);
+		$nrzipcode = str_replace('-', '', $nrzipcode);
 
 		$totals = $this->getProductsTotals();
 
@@ -206,7 +209,7 @@ class Cart extends Model{
 				'sDsSenha'=>'',
 				'nCdServico'=>'40010',
 				'sCepOrigem'=>'08275120',
-				'sCepDestino'=>'$nrzipcode',
+				'sCepDestino'=>$nrzipcode,
 				'nVlPeso$totals'=>$totals['vlweight'],
 				'nCdFormato'=>'1',
 				'nVlComprimento'=>$totals['vllength'],
@@ -215,11 +218,10 @@ class Cart extends Model{
 				'nVlDiametro'=>'0',
 				'sCdMaoPropria'=>'S',
 				'nVlValorDeclarado'=>$totals['vlprice'],
-				'sCdAvisoRecebimento'=>'S',
+				'sCdAvisoRecebimento'=>'S'
 			]);
 
-			$xml = (array)simplexml_load_file("http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx/CalcPrecoPrazo?".$qs);
-
+			$xml = simplexml_load_file("http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx/CalcPrecoPrazo?".$qs);
 			
 			$result = $xml->Servicos->cServico;
 
@@ -258,7 +260,7 @@ class Cart extends Model{
 
 	}
 
-	public static function setMsgError()
+	public static function setMsgError($msg)
 	{
 
 		$_SESSION[Cart::SESSION_ERROR] = $msg;
