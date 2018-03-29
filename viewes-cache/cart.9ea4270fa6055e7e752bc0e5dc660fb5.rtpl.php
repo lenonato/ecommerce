@@ -20,7 +20,9 @@
                     <div class="woocommerce">
 
                         <form action="/checkout">
-                          
+                            
+                         
+
                             <table cellspacing="0" class="shop_table cart">
                                 <thead>
                                     <tr>
@@ -91,7 +93,7 @@
                                         <tbody>
                                             <tr class="cart-subtotal">
                                                 <th>Subtotal</th>
-                                                <td><span class="amount">$700.00</span></td>
+                                                <td><span class="amount">R$<?php echo formatPrice($cart["vlsubtotal"]); ?></span></td>
                                             </tr>
 
                                             <tr class="shipping">
@@ -101,7 +103,7 @@
 
                                             <tr class="order-total">
                                                 <th>Total</th>
-                                                <td><strong><span class="amount">$705.00</span></strong> </td>
+                                                <td><strong><span class="amount">R$<?php echo formatPrice($cart["vltotal"]); ?></span></strong> </td>
                                             </tr>
                                         </tbody>
                                     </table>
