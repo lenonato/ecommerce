@@ -9,7 +9,9 @@ use \Hcode\Mailer;
 class User extends Model {
 
 	const SESSION = "User";
-	const SECRET =  "HcodePhp7_Secret";
+	const SECRET = "HcodePhp7_Secret";
+	const ERROR = "UserError";
+	const ERROR_REGISTER = "UserErrorRegister";
 
 	public static function getFromSession()
 	{
@@ -63,9 +65,8 @@ class User extends Model {
 
 		$sql = new Sql();
 
-		$results = $sql->select("SELECT * FROM tb_users WHERE deslogin = :LOGIN", array (
-			":LOGIN"=>$login
-		));
+		$results = $sql->select("SELECT * FROM tb_users a INNER JOIN tb_persons b ON a.idperson = b.idperson WHERE a.deslogin = :LOGIN"
+		);
 
 		if(count($results) ===0)
 		{
@@ -95,10 +96,15 @@ class User extends Model {
 	public static function verifyLogin($inadmin = true)
 	{
 
-		if (User::checkLogin($inadmin)) {
+		if (!User::checkLogin($inadmin)) {
 
+		if($inadmin) {
 			header("Location: /admin/login");
-			exit;
+		} else {		
+			header("Location: /login");	
+		}
+		exit;
+		
 		}
 
 	}
@@ -296,7 +302,40 @@ class User extends Model {
 
 	}
 
+	public static function setError($msg)
+	{
+
+		$_SESSION[User::ERROR] = $msg;
+
+	}
+
+	public static function getError()
+	{
+
+		$msg = (isset($_SESSION[User::ERROR]) && $_SESSION[User::ERROR]) ? $_SESSION[User::ERROR] : '';
+
+		User::clearError();
+
+		return $msg;
+		
+	}
+
+	public static function clearError()
+	{
+
+		$_SESSION[User::ERROR] = NULL;
+
+	}
+
+	public static function setErrorRegister($msg)
+	{
+
+		$SESSION[User::ERROR_REGISTER] = $msg;
+
+	}
+
 }
+
 
 
  ?>
