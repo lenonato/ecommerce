@@ -65,8 +65,10 @@ class User extends Model {
 
 		$sql = new Sql();
 
-		$results = $sql->select("SELECT * FROM tb_users a INNER JOIN tb_persons b ON a.idperson = b.idperson WHERE a.deslogin = :LOGIN"
-		);
+
+		$results = $sql->select("SELECT * FROM tb_users a INNER JOIN tb_persons b ON a.idperson = b.idperson WHERE a.deslogin = :LOGIN", array(
+     			":LOGIN"=>$login
+		));
 
 		if(count($results) ===0)
 		{
@@ -100,7 +102,7 @@ class User extends Model {
 
 		if (!User::checkLogin($inadmin)) {
 
-		if($inadmin) {
+		if ($inadmin) {
 			header("Location: /admin/login");
 		} else {		
 			header("Location: /login");	
@@ -336,7 +338,7 @@ class User extends Model {
 	public static function setErrorRegister($msg)
 	{
 
-		$SESSION[User::ERROR_REGISTER] = $msg;
+		$_SESSION[User::ERROR_REGISTER] = $msg;
 
 	}
 
@@ -379,7 +381,6 @@ class User extends Model {
 		]);
 
 	}
-
 
 
 }
